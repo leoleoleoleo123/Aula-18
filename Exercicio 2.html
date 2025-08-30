@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Caça ao Tesouro</title>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React e ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+
+  <!-- React Router -->
+  <script src="https://unpkg.com/react-router-dom@6/umd/react-router-dom.development.js"></script>
+
+  <!-- Nosso App -->
+  <script type="text/babel" src="App.js">
+    const { BrowserRouter, Routes, Route, Link, useParams, Navigate } = ReactRouterDOM;
+
+// Componente Home
+function Home() {
+  return (
+    <div style={{ textAlign: 'center', marginTop: '50px' }}>
+      <h1>🎯 Caça ao Tesouro</h1>
+      <p>Escolha uma pista para começar a aventura:</p>
+      <ul>
+        <li><Link to="/pista/sol">Sol 🌞</Link></li>
+        <li><Link to="/pista/lua">Lua 🌙</Link></li>
+        <li><Link to="/pista/estrela">Estrela ⭐</Link></li>
+      </ul>
+    </div>
+  );
+}
+
+// Componente Pista
+function Pista() {
+  const { codigo } = useParams();
+  let mensagem;
+
+  switch(codigo) {
+    case 'sol':
+      mensagem = '☀️ Você encontrou a pista do Sol! Continue explorando.';
+      break;
+    case 'lua':
+      mensagem = '🌙 A Lua brilha para você! Próxima pista aguarda.';
+      break;
+    case 'estrela':
+      mensagem = '⭐ Parabéns! Você encontrou a pista da Estrela!';
+      break;
+    default:
+      // Se o código não existir, redireciona para 404
+      return <Navigate to="/404" />;
+  }
+
+  return (
+    <div style={{ textAlign: 'center', marginTop: '50px' }}>
+      <h2>{mensagem}</h2>
+      <Link to="/">🔙 Voltar ao início</Link>
+    </div>
+  );
+}
+
+// Componente 404
+function NotFound() {
+  return (
+    <div style={{ textAlign: 'center', marginTop: '50px' }}>
+      <h1>❌ Pista não encontrada!</h1>
+      <p>Ops… parece que essa pista é falsa. Tente outra pista!</p>
+      <Link to="/">🏠 Voltar ao início</Link>
+    </div>
+  );
+}
+
+// Componente principal App
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/pista/:codigo" element={<Pista />} />
+        <Route path="/404" element={<NotFound />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+// Renderizando
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
+  </script>
+</body>
+</html>

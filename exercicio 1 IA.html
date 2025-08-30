@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Landing HyperNeo</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="index.jsx">
+    import React from "react";
+import ReactDOM from "react-dom/client";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  NavLink,
+  Outlet,
+} from "react-router-dom";
+
+// Paleta de cores aplicada via estilo inline ou CSS
+const styles = {
+  header: { backgroundColor: "#1E3A8A", padding: "1rem", color: "#fff" },
+  navLink: { margin: "0 1rem", textDecoration: "none", color: "#fff" },
+  navLinkActive: { fontWeight: "bold", borderBottom: "2px solid #FBBF24" },
+  section: { padding: "2rem", minHeight: "70vh" },
+};
+
+// Layout com menu
+function Layout() {
+  return (
+    <div>
+      <header style={styles.header}>
+        <h1>HyperNeo</h1>
+        <nav>
+          <NavLink to="/" style={({isActive}) => isActive ? {...styles.navLink, ...styles.navLinkActive} : styles.navLink}>Home</NavLink>
+          <NavLink to="/sobre" style={({isActive}) => isActive ? {...styles.navLink, ...styles.navLinkActive} : styles.navLink}>Sobre</NavLink>
+          <NavLink to="/contato" style={({isActive}) => isActive ? {...styles.navLink, ...styles.navLinkActive} : styles.navLink}>Contato</NavLink>
+        </nav>
+      </header>
+      <Outlet />
+    </div>
+  );
+}
+
+// Seções
+function Home() {
+  return <section style={{...styles.section, backgroundColor: "#3B82F6", color: "#fff"}}><h2>Bem-vindo à HyperNeo</h2><p>Transformando ideias em soluções tecnológicas inovadoras.</p></section>;
+}
+function Sobre() {
+  return <section style={{...styles.section, backgroundColor: "#111827", color: "#fff"}}><h2>Sobre Nós</h2><p>Nossa equipe cria websites, sistemas e designs que elevam sua marca ao próximo nível.</p></section>;
+}
+function Contato() {
+  return <section style={{...styles.section, backgroundColor: "#10B981", color: "#fff"}}><h2>Contato</h2><p>Entre em contato e descubra como podemos potencializar seu negócio.</p></section>;
+}
+
+// App principal
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="sobre" element={<Sobre />} />
+          <Route path="contato" element={<Contato />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+  </script>
+</body>
+</html>

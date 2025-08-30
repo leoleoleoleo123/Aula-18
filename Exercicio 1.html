@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Museu Digital SPA</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  nav {
+    display: flex;
+    background-color: #333;
+    padding: 10px;
+    justify-content: center;
+  }
+
+  nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 1.2em;
+    transition: transform 0.2s;
+  }
+
+  nav a:hover {
+    transform: scale(1.2);
+  }
+
+  .active {
+    font-weight: bold;
+    text-decoration: underline;
+  }
+
+  main {
+    padding: 20px;
+    text-align: center;
+  }
+
+  .sala {
+    margin-top: 20px;
+  }
+
+  .sala img {
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
+  /* Cores diferentes por sala */
+  .inicio {
+    background-color: #f0f8ff;
+  }
+
+  .obras {
+    background-color: #fff0f5;
+  }
+
+  .sobre {
+    background-color: #f5fff0;
+  }
+</style>
+</head>
+<body>
+<nav>
+  <a href="#/" id="link-inicio">🏛 Início</a>
+  <a href="#/obras" id="link-obras">🖼 Obras</a>
+  <a href="#/sobre" id="link-sobre">ℹ️ Sobre</a>
+</nav>
+
+<main id="app">
+  <!-- Conteúdo dinâmico será inserido aqui -->
+</main>
+
+<script>
+  const app = document.getElementById('app');
+
+  // Rotas e conteúdo
+  const routes = {
+    '/': {
+      class: 'inicio',
+      content: `
+        <h1>Bem-vindo ao Museu Digital</h1>
+        <div class="sala">
+          <img src="https://via.placeholder.com/300x200?text=Entrada" alt="Entrada">
+          <p>Esta é a entrada do nosso museu.</p>
+        </div>
+      `
+    },
+    '/obras': {
+      class: 'obras',
+      content: `
+        <h1>Galeria de Obras</h1>
+        <div class="sala">
+          <img src="https://via.placeholder.com/300x200?text=Obra+1" alt="Obra 1">
+          <p>Obra famosa do museu.</p>
+        </div>
+      `
+    },
+    '/sobre': {
+      class: 'sobre',
+      content: `
+        <h1>Sobre o Museu</h1>
+        <div class="sala">
+          <img src="https://via.placeholder.com/300x200?text=Sobre" alt="Sobre">
+          <p>Informações sobre o museu digital.</p>
+        </div>
+      `
+    }
+  };
+
+  // Função para atualizar conteúdo
+  function render() {
+    const hash = location.hash.slice(1) || '/';
+    const route = routes[hash] || routes['/'];
+
+    // Atualiza o conteúdo e a classe do main
+    app.innerHTML = route.content;
+    app.className = route.class;
+
+    // Atualiza link ativo
+    document.querySelectorAll('nav a').forEach(link => {
+      link.classList.remove('active');
+    });
+    const activeLink = document.querySelector(`#link-${hash.slice(1) || 'inicio'}`);
+    if(activeLink) activeLink.classList.add('active');
+  }
+
+  // Eventos de hash change e load
+  window.addEventListener('hashchange', render);
+  window.addEventListener('load', render);
+</script>
+</body>
+</html>
